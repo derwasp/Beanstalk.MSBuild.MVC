@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);
+      CreateBeanstalkRelease
+    </BuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateBeanstalkRelease" AfterTargets="AfterBuild" >
+    <PropertyGroup>
+      <ZippingIntermediateFolder>$(IntermediateOutputPath)\zipping\</ZippingIntermediateFolder>
+      <ZippingProjectFolder>$(ZippingIntermediateFolder)$(MSBuildProjectName)\</ZippingProjectFolder>
+      <ZippingProjectDestinationFile>$(ZippingIntermediateFolder)\$(MSBuildProjectName).zip</ZippingProjectDestinationFile>
+      <BeanstalkZipFile>$(OutputPath)\$(MSBuildProjectName)-Beanstalk.zip</BeanstalkZipFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <AllBinaryFiles Include="@(FileWrites)" Exclude="$(IntermediateOutputPath)**\*" />
+      <AllBinaryFiles Include="@(FileWritesShareable)" Exclude="$(IntermediateOutputPath)**\*" />
+      <AllContentFiles Include="@(Content)" Exclude="packages.config" />
+      <AllContentFiles Include="@(TypeScriptCompile)" Exclude="packages.config" />
+
+      <AllFilesToCopy Include="@(AllContentFiles)" />
+      <AllFilesToCopy Include="@(AllBinaryFiles)" />
+
+      <AllFilesRelativeToProject Include="@(AllFilesToCopy)" Exclude="$(BeanstalkManifestFile)">
+         <DstDir>$([System.IO.Path]::GetDirectoryName($([MSBuild]::MakeRelative($(ProjectDir), %(FullPath)))))</DstDir>
+      </AllFilesRelativeToProject>
+
+      <AdditionalAllFilesRelativeToProject Include="@(BeanstalkAdditionalFiles)">
+         <DstDir>$([System.IO.Path]::GetDirectoryName($([MSBuild]::MakeRelative($(ProjectDir), %(FullPath)))))</DstDir>
+      </AdditionalAllFilesRelativeToProject>
+
+      <DirsToClean Include="$(ZippingProjectFolder)" />
+
+      <BeanstalkManifest Include="$(BeanstalkManifestFile)"/>
+    </ItemGroup>
+
+    <Copy SourceFiles="@(AllFilesRelativeToProject)" DestinationFolder="$(ZippingProjectFolder)\%(DstDir)" />
+
+    <Copy SourceFiles="@(AdditionalAllFilesRelativeToProject)" DestinationFolder="$(ZippingProjectFolder)\%(DstDir)"
+          Condition="Exists('%(RootDir)%(Directory)%(Filename)%(Extension)')"/>
+
+    <ZipDirectory SourceDirectory="$(ZippingProjectFolder)" DestinationFile="$(ZippingProjectDestinationFile)" />
+    <RemoveDir Directories="@(DirsToClean)" />
+    <Copy SourceFiles="@(BeanstalkManifest)" DestinationFolder="$(ZippingIntermediateFolder)" />
+    <ZipDirectory SourceDirectory="$(ZippingIntermediateFolder)" DestinationFile="$(BeanstalkZipFile)" />
+  </Target>
+    
+</Project>

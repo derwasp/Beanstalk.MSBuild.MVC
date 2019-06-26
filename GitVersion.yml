@@ -1,0 +1,9 @@
+assembly-informational-format: '{NuGetVersion}'
+mode: ContinuousDeployment
+branches:
+  master:
+    tag: b
+    increment: Patch
+  features?[/-]:
+    tag: a-{BranchName}
+    increment: Patch

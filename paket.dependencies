@@ -1,0 +1,7 @@
+group Build
+  source https://nuget.org/api/v2
+  restriction: <= net45
+
+  nuget FAKE
+  nuget GitVersion.CommandLine
+  nuget NuGet.CommandLine
