@@ -8,14 +8,18 @@
     </BuildDependsOn>
   </PropertyGroup>
 
-  <Target Name="CreateBeanstalkRelease" AfterTargets="AfterBuild" >
-    <PropertyGroup>
-      <ZippingIntermediateFolder>$(IntermediateOutputPath)\zipping\</ZippingIntermediateFolder>
-      <ZippingProjectFolder>$(ZippingIntermediateFolder)$(MSBuildProjectName)\</ZippingProjectFolder>
-      <ZippingProjectDestinationFile>$(ZippingIntermediateFolder)\$(MSBuildProjectName).zip</ZippingProjectDestinationFile>
-      <BeanstalkZipFile>$(OutputPath)\$(MSBuildProjectName)-Beanstalk.zip</BeanstalkZipFile>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RunBeanstalkRelease Condition="'$(RunOctoPack)'==''">false</RunBeanstalkRelease>
 
+    <ZippingIntermediateFolder>$(IntermediateOutputPath)\zipping\</ZippingIntermediateFolder>
+    <ZippingProjectFolder>$(ZippingIntermediateFolder)$(MSBuildProjectName)\</ZippingProjectFolder>
+    <ZippingProjectDestinationFile>$(ZippingIntermediateFolder)\$(MSBuildProjectName).zip</ZippingProjectDestinationFile>
+    <BeanstalkZipFile>$(OutputPath)\$(MSBuildProjectName)-Beanstalk.zip</BeanstalkZipFile>
+  </PropertyGroup>
+
+
+
+  <Target Name="CreateBeanstalkRelease" AfterTargets="AfterBuild" Condition="$(RunBeanstalkRelease)" >
     <ItemGroup>
       <AllBinaryFiles Include="@(FileWrites)" Exclude="$(IntermediateOutputPath)**\*" />
       <AllBinaryFiles Include="@(FileWritesShareable)" Exclude="$(IntermediateOutputPath)**\*" />
