@@ -11,6 +11,7 @@
     <tags>beanstalk,aws,msbuild,task,publish</tags>
     <projectUrl>https://github.com/derwasp/Beanstalk.MSBuild.MVC</projectUrl>
     <copyright>Copyright (c) Denys Zhuravel</copyright>
+    <developmentDependency>true</developmentDependency>
   </metadata>
   <files>
     <file src="build\*.*" target="build\net45" />
