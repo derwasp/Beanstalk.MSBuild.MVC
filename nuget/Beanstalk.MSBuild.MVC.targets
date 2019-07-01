@@ -33,7 +33,8 @@
          <DstDir>$([System.IO.Path]::GetDirectoryName($([MSBuild]::MakeRelative($(ProjectDir), %(FullPath)))))</DstDir>
       </AllFilesRelativeToProject>
 
-      <AdditionalAllFilesRelativeToProject Include="@(BeanstalkAdditionalFiles)" Condition="'@(BeanstalkAdditionalFiles)' != ''">
+      <AdditionalAllFilesIncludes Include="$(BeanstalkAdditionalFiles)" Condition="$(BeanstalkAdditionalFiles) != ''" />
+      <AdditionalAllFilesRelativeToProject Include="@(AdditionalAllFilesIncludes)" Condition="@(AdditionalAllFilesIncludes) != ''">
          <DstDir>$([System.IO.Path]::GetDirectoryName($([MSBuild]::MakeRelative($(ProjectDir), %(FullPath)))))</DstDir>
       </AdditionalAllFilesRelativeToProject>
 
