@@ -41,6 +41,7 @@
       <DirsToClean Include="$(ZippingProjectFolder)" />
 
       <BeanstalkManifest Include="$(BeanstalkManifestFile)"/>
+      <EbExtensionsFiles Include="$(EbExtensions)" Condition="$(EbExtensions) != ''"/>
     </ItemGroup>
 
     <Copy SourceFiles="@(AllFilesRelativeToProject)" DestinationFolder="$(ZippingProjectFolder)\%(DstDir)" />
@@ -51,6 +52,8 @@
     <ZipDirectory SourceDirectory="$(ZippingProjectFolder)" DestinationFile="$(ZippingProjectDestinationFile)" />
     <RemoveDir Directories="@(DirsToClean)" />
     <Copy SourceFiles="@(BeanstalkManifest)" DestinationFolder="$(ZippingIntermediateFolder)" />
+    <Copy SourceFiles="@(EbExtensionsFiles)" DestinationFolder="$(ZippingIntermediateFolder)\.ebextensions"
+          Condition="Exists('%(RootDir)%(Directory)%(Filename)%(Extension)')" />
     <ZipDirectory SourceDirectory="$(ZippingIntermediateFolder)" DestinationFile="$(BeanstalkZipFile)" />
   </Target>
     
