@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <RunBeanstalkRelease Condition="'$(RunBeanstalkRelease)'==''">false</RunBeanstalkRelease>
+    <RunBeanstalkRelease Condition=" '$(RunBeanstalkRelease)' == '' ">false</RunBeanstalkRelease>
 
     <ZippingIntermediateFolder>$(IntermediateOutputPath)\zipping\</ZippingIntermediateFolder>
     <ZippingProjectFolder>$(ZippingIntermediateFolder)$(MSBuildProjectName)\</ZippingProjectFolder>
