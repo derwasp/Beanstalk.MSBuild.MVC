@@ -14,11 +14,13 @@
     <developmentDependency>true</developmentDependency>
   </metadata>
   <files>
+    <file src="build\*.*" target="build\net35" />
     <file src="build\*.*" target="build\net45" />
     <file src="build\*.*" target="build\net451" />
     <file src="build\*.*" target="build\net452" />
     <file src="build\*.*" target="build\net461" />
     <file src="build\*.*" target="build\net462" />
+    <file src="lib\net35\*.*" target="lib\net35" />
     <file src="lib\net45\*.*" target="lib\net45" />
     <file src="lib\net451\*.*" target="lib\net451" />
     <file src="lib\net452\*.*" target="lib\net452" />
