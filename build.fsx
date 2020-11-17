@@ -30,7 +30,7 @@ Target "TraceVersion" <| fun _ ->
 
 let ensureNugetFolderStructure folder = 
     folder </> "build" |> mkdir
-    ["net35", "net45"; "net451"; "net452"; "net46"; "net461"; "net462"]
+    ["net35"; "net45"; "net451"; "net452"; "net46"; "net461"; "net462"]
     |> Seq.iter (fun framework -> 
         let frameworkPath = folder </> "lib" </> framework
         frameworkPath |> mkdir
